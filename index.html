@@ -5,450 +5,625 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>La Música en Nuestra Vida Diaria — 2º ESO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-  :root {
-    --verde: #2d6a4f;
-    --verde-claro: #74c69d;
-    --verde-palido: #d8f3dc;
-    --roca: #1a1a2e;
-    --reggaeton: #e63946;
-    --rock: #457b9d;
-    --crema: #fefae0;
-    --texto: #1a1a2e;
-    --muted: #6c757d;
-    --borde: rgba(0,0,0,0.09);
-  }
+:root {
+  --verde:    #2d6a4f;
+  --verdeC:   #74c69d;
+  --verdeP:   #d8f3dc;
+  --roca:     #1a1a2e;
+  --rock:     #457b9d;
+  --rockL:    #d6e8f5;
+  --regg:     #c1121f;
+  --reggL:    #fce8e8;
+  --crema:    #fefae0;
+  --blanco:   #ffffff;
+  --texto:    #1a1a2e;
+  --muted:    #6c757d;
+  --borde:    rgba(0,0,0,0.08);
+}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin:0; padding:0; box-sizing:border-box; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--crema);
-    color: var(--texto);
-    min-height: 100vh;
-  }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--crema);
+  color: var(--texto);
+}
 
-  header {
-    background: var(--roca);
-    color: white;
-    text-align: center;
-    padding: 3rem 1.5rem 3.5rem;
-    position: relative;
-    overflow: hidden;
-  }
+/* ── HERO ── */
+.hero {
+  background: var(--roca);
+  color: white;
+  text-align: center;
+  padding: 3.5rem 1.5rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
 
-  header::after {
-    content: '';
-    position: absolute;
-    bottom: -1px; left: 0; right: 0;
-    height: 44px;
-    background: var(--crema);
-    clip-path: ellipse(55% 100% at 50% 100%);
-  }
+.hero::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; bottom:0;
+  background: radial-gradient(ellipse at 70% 30%, rgba(45,106,79,0.25) 0%, transparent 60%),
+              radial-gradient(ellipse at 20% 80%, rgba(69,123,157,0.2) 0%, transparent 55%);
+  pointer-events:none;
+}
 
-  .header-badge {
-    display: inline-block;
-    background: var(--verde);
-    color: white;
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.3rem 1rem;
-    border-radius: 100px;
-    margin-bottom: 1rem;
-  }
+.hero::after {
+  content:'';
+  position:absolute; bottom:-1px; left:0; right:0; height:48px;
+  background:var(--crema);
+  clip-path: ellipse(55% 100% at 50% 100%);
+}
 
-  header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.7rem, 5vw, 2.8rem);
-    line-height: 1.2;
-    margin-bottom: 0.75rem;
-  }
+.hero-badge {
+  display:inline-block;
+  background: var(--verde);
+  color:white;
+  font-size:0.7rem; font-weight:500; letter-spacing:0.12em;
+  text-transform:uppercase;
+  padding:0.3rem 1rem; border-radius:100px;
+  margin-bottom:1rem;
+  position:relative;
+}
 
-  header h1 span { color: var(--verde-claro); }
+.hero h1 {
+  font-family:'Playfair Display',serif;
+  font-size: clamp(2rem,6vw,3.5rem);
+  line-height:1.15; margin-bottom:0.5rem;
+  position:relative;
+}
 
-  .header-intro {
-    color: rgba(255,255,255,0.72);
-    font-size: 0.92rem;
-    max-width: 520px;
-    margin: 0 auto;
-    line-height: 1.65;
-  }
+.hero h1 em { color:var(--verdeC); font-style:normal; }
 
-  .emoji-row { font-size: 1.8rem; margin-bottom: 0.75rem; letter-spacing: 0.3em; }
+.hero-sub {
+  color:rgba(255,255,255,0.6);
+  font-size:0.92rem; margin-bottom:0.5rem;
+  position:relative;
+}
 
-  main {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 2.5rem 1.25rem 4rem;
-  }
+.vs-pill {
+  display:inline-flex; align-items:center; gap:0.5rem;
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:100px; padding:0.35rem 1rem;
+  font-size:0.85rem; margin-top:0.75rem;
+  position:relative;
+}
 
-  .tabs {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 2rem;
-    border-bottom: 1.5px solid var(--borde);
-  }
+.vs-rock { color:#74b3d8; font-weight:600; }
+.vs-regg { color:#e07070; font-weight:600; }
+.vs-sep  { color:rgba(255,255,255,0.3); }
 
-  .tab {
-    padding: 0.6rem 1.4rem;
-    border: none;
-    background: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--muted);
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1.5px;
-    transition: all 0.18s;
-    border-radius: 4px 4px 0 0;
-  }
+/* ── MAIN ── */
+main { max-width:820px; margin:0 auto; padding:2.5rem 1.25rem 5rem; }
 
-  .tab.active { color: var(--verde); border-bottom-color: var(--verde); }
-  .tab:hover:not(.active) { color: var(--texto); background: rgba(0,0,0,0.03); }
+/* ── TABS ── */
+.tabs {
+  display:flex; gap:0.4rem;
+  border-bottom:1.5px solid var(--borde);
+  margin-bottom:2.25rem;
+}
 
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
+.tab {
+  padding:0.6rem 1.25rem;
+  border:none; background:none;
+  font-family:'DM Sans',sans-serif;
+  font-size:0.9rem; font-weight:500;
+  color:var(--muted); cursor:pointer;
+  border-bottom:2px solid transparent;
+  margin-bottom:-1.5px;
+  transition:all 0.17s; border-radius:4px 4px 0 0;
+}
 
-  .q-card {
-    background: white;
-    border-radius: 16px;
-    padding: 1.6rem 1.75rem;
-    margin-bottom: 1.25rem;
-    border: 1px solid var(--borde);
-  }
+.tab.active { color:var(--verde); border-bottom-color:var(--verde); }
+.tab:hover:not(.active) { color:var(--texto); background:rgba(0,0,0,0.03); }
 
-  .q-number {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--verde);
-    font-weight: 500;
-    margin-bottom: 0.4rem;
-  }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
 
-  .q-text {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.08rem;
-    color: var(--roca);
-    margin-bottom: 1.1rem;
-    line-height: 1.4;
-  }
+/* ── INTRO TAB ── */
+.intro-section {
+  background:white; border-radius:18px;
+  padding:2rem 2.25rem;
+  border:1px solid var(--borde);
+  margin-bottom:1.25rem;
+}
 
-  .options { display: flex; flex-direction: column; gap: 0.55rem; }
+.section-chip {
+  display:inline-block;
+  font-size:0.68rem; font-weight:600;
+  letter-spacing:0.12em; text-transform:uppercase;
+  padding:0.25rem 0.75rem; border-radius:100px;
+  margin-bottom:0.9rem;
+}
 
-  .opt { position: relative; }
+.chip-verde  { background:var(--verdeP); color:var(--verde); }
+.chip-rock   { background:var(--rockL);  color:var(--rock); }
+.chip-regg   { background:var(--reggL);  color:var(--regg); }
+.chip-dark   { background:#eef; color:var(--roca); }
 
-  .opt input[type="radio"] {
-    position: absolute; opacity: 0; width: 0; height: 0;
-  }
+.intro-section h2 {
+  font-family:'Playfair Display',serif;
+  font-size:1.3rem; color:var(--roca);
+  margin-bottom:0.85rem; line-height:1.3;
+}
 
-  .opt label {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
-    border: 1.5px solid #e8e8e8;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 0.92rem;
-    transition: all 0.16s;
-    background: #fafafa;
-    line-height: 1.4;
-    color: var(--texto);
-  }
+.intro-section p {
+  font-size:0.93rem; line-height:1.75;
+  color:#444; margin-bottom:0.85rem;
+}
 
-  .opt-letter {
-    width: 24px; height: 24px;
-    border-radius: 50%;
-    border: 1.5px solid #d0d0d0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.72rem;
-    font-weight: 500;
-    color: var(--muted);
-    flex-shrink: 0;
-    transition: all 0.16s;
-  }
+.intro-section p:last-child { margin-bottom:0; }
 
-  .opt input:checked + label {
-    border-color: var(--verde);
-    background: var(--verde-palido);
-    color: var(--verde);
-    font-weight: 500;
-  }
+/* Hipótesis callout */
+.hypothesis-box {
+  background: linear-gradient(135deg, var(--rockL) 0%, var(--verdeP) 100%);
+  border-left:4px solid var(--rock);
+  border-radius:0 12px 12px 0;
+  padding:1.1rem 1.4rem;
+  margin:1.1rem 0;
+  font-style:italic;
+  font-size:0.97rem;
+  color:var(--roca);
+  line-height:1.65;
+}
 
-  .opt input:checked + label .opt-letter {
-    background: var(--verde);
-    border-color: var(--verde);
-    color: white;
-  }
+.hypothesis-box strong { font-style:normal; color:var(--rock); }
 
-  .opt label:hover { border-color: var(--verde-claro); background: #f0faf4; }
+/* Variables grid */
+.vars-grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap:0.85rem; margin-top:1rem;
+}
 
-  .num-input-wrap {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
+.var-card {
+  border-radius:12px; padding:1rem 1.1rem;
+  border:1px solid var(--borde);
+}
 
-  input[type="number"] {
-    width: 110px;
-    padding: 0.65rem 0.9rem;
-    border: 1.5px solid #e8e8e8;
-    border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1rem;
-    color: var(--texto);
-    background: #fafafa;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    -moz-appearance: textfield;
-  }
+.var-card.ind  { background:#f0f7ff; border-color:#bdd5ea; }
+.var-card.dep  { background:var(--verdeP); border-color:#b7dfc7; }
+.var-card.ctrl { background:#fff8ee; border-color:#f0d9a8; }
 
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+.var-type {
+  font-size:0.65rem; font-weight:700;
+  letter-spacing:0.1em; text-transform:uppercase;
+  margin-bottom:0.35rem;
+}
 
-  input[type="number"]:focus {
-    outline: none;
-    border-color: var(--verde);
-    box-shadow: 0 0 0 3px rgba(45,106,79,0.1);
-    background: white;
-  }
+.var-card.ind  .var-type { color:var(--rock); }
+.var-card.dep  .var-type { color:var(--verde); }
+.var-card.ctrl .var-type { color:#a07830; }
 
-  .num-unit { font-size: 0.9rem; color: var(--muted); }
+.var-card p { font-size:0.85rem; line-height:1.5; color:var(--texto); }
 
-  .form-error {
-    display: none;
-    color: #922;
-    font-size: 0.88rem;
-    margin-bottom: 0.75rem;
-    padding: 0.75rem 1rem;
-    background: #fce8e8;
-    border-radius: 8px;
-    border: 1px solid #f5c0c0;
-  }
+/* ── FORMULARIO ── */
+.q-card {
+  background:white; border-radius:16px;
+  padding:1.6rem 1.75rem;
+  margin-bottom:1.15rem;
+  border:1px solid var(--borde);
+}
 
-  .submit-btn {
-    width: 100%;
-    padding: 0.95rem;
-    background: var(--verde);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-    margin-top: 0.25rem;
-    letter-spacing: 0.01em;
-  }
+.q-number {
+  font-size:0.68rem; text-transform:uppercase;
+  letter-spacing:0.12em; color:var(--verde);
+  font-weight:600; margin-bottom:0.4rem;
+}
 
-  .submit-btn:hover { background: #235c40; }
-  .submit-btn:active { transform: scale(0.98); }
+.q-text {
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem; color:var(--roca);
+  margin-bottom:1rem; line-height:1.4;
+}
 
-  .success-msg {
-    display: none;
-    text-align: center;
-    padding: 2.5rem 1.5rem;
-    background: var(--verde-palido);
-    border-radius: 16px;
-    border: 1px solid var(--verde-claro);
-  }
+.options { display:flex; flex-direction:column; gap:0.5rem; }
 
-  .success-msg .big-emoji { font-size: 3rem; margin-bottom: 0.75rem; }
+.opt { position:relative; }
 
-  .success-msg h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    color: var(--verde);
-    margin-bottom: 0.5rem;
-  }
+.opt input[type="radio"] { position:absolute; opacity:0; width:0; height:0; }
 
-  .success-msg p { color: #2d6a4f; font-size: 0.95rem; margin-bottom: 1.25rem; }
+.opt label {
+  display:flex; align-items:center; gap:0.7rem;
+  padding:0.7rem 1rem;
+  border:1.5px solid #e8e8e8; border-radius:10px;
+  cursor:pointer; font-size:0.9rem;
+  transition:all 0.15s; background:#fafafa;
+  line-height:1.35; color:var(--texto);
+}
 
-  .goto-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.65rem 1.5rem;
-    background: var(--verde);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
+.opt-letter {
+  width:23px; height:23px; border-radius:50%;
+  border:1.5px solid #d0d0d0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.68rem; font-weight:600; color:var(--muted);
+  flex-shrink:0; transition:all 0.15s;
+}
 
-  .goto-btn:hover { background: #235c40; }
+.opt input:checked + label {
+  border-color:var(--verde); background:var(--verdeP);
+  color:var(--verde); font-weight:500;
+}
 
-  /* RESULTS */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1.75rem;
-  }
+.opt input:checked + label .opt-letter {
+  background:var(--verde); border-color:var(--verde); color:white;
+}
 
-  .stat-card {
-    background: white;
-    border-radius: 14px;
-    padding: 1.1rem 1.25rem;
-    border: 1px solid var(--borde);
-    text-align: center;
-  }
+.opt label:hover { border-color:var(--verdeC); background:#f0faf4; }
 
-  .stat-label {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: var(--muted);
-    margin-bottom: 0.35rem;
-  }
+.num-wrap { display:flex; align-items:center; gap:0.75rem; }
 
-  .stat-value {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    color: var(--roca);
-    line-height: 1;
-  }
+input[type="number"] {
+  width:110px; padding:0.65rem 0.9rem;
+  border:1.5px solid #e8e8e8; border-radius:10px;
+  font-family:'DM Sans',sans-serif; font-size:1rem;
+  color:var(--texto); background:#fafafa;
+  transition:border-color 0.2s, box-shadow 0.2s;
+  -moz-appearance:textfield;
+}
 
-  .stat-value small {
-    font-size: 0.9rem;
-    font-family: 'DM Sans', sans-serif;
-    color: var(--muted);
-  }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance:none; }
 
-  .chart-card {
-    background: white;
-    border-radius: 16px;
-    padding: 1.75rem;
-    border: 1px solid var(--borde);
-    margin-bottom: 1.25rem;
-  }
+input[type="number"]:focus {
+  outline:none; border-color:var(--verde);
+  box-shadow:0 0 0 3px rgba(45,106,79,0.1); background:white;
+}
 
-  .chart-card h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.05rem;
-    color: var(--roca);
-    margin-bottom: 0.2rem;
-  }
+.num-unit { font-size:0.88rem; color:var(--muted); }
 
-  .chart-sub {
-    font-size: 0.78rem;
-    color: var(--muted);
-    margin-bottom: 1.25rem;
-  }
+.form-error {
+  display:none; color:#922; font-size:0.87rem;
+  padding:0.7rem 1rem; background:#fce8e8;
+  border-radius:8px; border:1px solid #f5c0c0;
+  margin-bottom:0.75rem;
+}
 
-  .donut-wrap {
-    max-width: 300px;
-    margin: 0 auto 0.75rem;
-  }
+.submit-btn {
+  width:100%; padding:0.95rem;
+  background:var(--verde); color:white; border:none;
+  border-radius:12px; font-family:'DM Sans',sans-serif;
+  font-size:1rem; font-weight:500; cursor:pointer;
+  transition:background 0.2s, transform 0.1s;
+  letter-spacing:0.01em;
+}
 
-  .legend {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.6rem 1.2rem;
-    margin-top: 0.75rem;
-  }
+.submit-btn:hover { background:#235c40; }
+.submit-btn:active { transform:scale(0.98); }
 
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.82rem;
-    color: var(--texto);
-  }
+.success-msg {
+  display:none; text-align:center;
+  padding:2.5rem 1.5rem;
+  background:var(--verdeP); border-radius:16px;
+  border:1px solid var(--verdeC);
+}
 
-  .legend-dot {
-    width: 11px; height: 11px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
+.success-msg .big-emoji { font-size:3rem; margin-bottom:0.75rem; }
 
-  .no-data {
-    text-align: center;
-    padding: 3.5rem 1rem;
-    color: var(--muted);
-  }
+.success-msg h3 {
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem; color:var(--verde); margin-bottom:0.5rem;
+}
 
-  .no-emoji { font-size: 2.5rem; margin-bottom: 0.75rem; }
+.success-msg p { color:#2d6a4f; font-size:0.93rem; margin-bottom:1.25rem; }
 
-  .refresh-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    margin: 0 auto 1.5rem;
-    padding: 0.55rem 1.25rem;
-    border: 1.5px solid var(--verde);
-    color: var(--verde);
-    background: none;
-    border-radius: 8px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.88rem;
-    cursor: pointer;
-    transition: all 0.18s;
-  }
+.goto-btn {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  padding:0.65rem 1.5rem; background:var(--verde);
+  color:white; border:none; border-radius:10px;
+  font-family:'DM Sans',sans-serif; font-size:0.95rem;
+  font-weight:500; cursor:pointer; transition:background 0.2s;
+}
 
-  .refresh-btn:hover { background: var(--verde-palido); }
+.goto-btn:hover { background:#235c40; }
 
-  .info-strip {
-    background: var(--roca);
-    color: rgba(255,255,255,0.7);
-    border-radius: 12px;
-    padding: 1.1rem 1.4rem;
-    font-size: 0.83rem;
-    line-height: 1.65;
-    margin-top: 1.5rem;
-  }
+/* ── RESULTS ── */
 
-  .info-strip strong { color: white; }
+/* Comparativa Rock vs Reggaetón */
+.versus-banner {
+  display:grid; grid-template-columns:1fr auto 1fr;
+  gap:0; margin-bottom:1.5rem;
+  border-radius:16px; overflow:hidden;
+  border:1px solid var(--borde);
+}
 
-  footer {
-    text-align: center;
-    padding: 1.5rem;
-    font-size: 0.8rem;
-    color: var(--muted);
-    border-top: 1px solid var(--borde);
-    margin-top: 2rem;
-  }
+.vs-side {
+  padding:1.25rem 1.5rem; text-align:center;
+}
 
-  footer strong { color: var(--verde); }
+.vs-side.rock-side { background:var(--rockL); }
+.vs-side.regg-side { background:var(--reggL); }
+
+.vs-side .vs-genre {
+  font-size:0.7rem; text-transform:uppercase;
+  letter-spacing:0.12em; font-weight:700;
+  margin-bottom:0.4rem;
+}
+
+.vs-side.rock-side .vs-genre { color:var(--rock); }
+.vs-side.regg-side .vs-genre { color:var(--regg); }
+
+.vs-side .vs-n {
+  font-family:'Playfair Display',serif;
+  font-size:2.4rem; line-height:1;
+}
+
+.vs-side.rock-side .vs-n { color:var(--rock); }
+.vs-side.regg-side .vs-n { color:var(--regg); }
+
+.vs-side .vs-label { font-size:0.78rem; color:var(--muted); margin-top:0.2rem; }
+
+.vs-center {
+  background:white; display:flex;
+  align-items:center; justify-content:center;
+  padding:0 1rem;
+  font-family:'Playfair Display',serif;
+  font-size:1.2rem; color:var(--muted);
+  border-left:1px solid var(--borde);
+  border-right:1px solid var(--borde);
+}
+
+/* Stats row */
+.stats-row {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(130px,1fr));
+  gap:0.9rem; margin-bottom:1.5rem;
+}
+
+.stat-card {
+  background:white; border-radius:14px;
+  padding:1rem 1.1rem;
+  border:1px solid var(--borde); text-align:center;
+}
+
+.stat-label {
+  font-size:0.68rem; text-transform:uppercase;
+  letter-spacing:0.08em; color:var(--muted); margin-bottom:0.3rem;
+}
+
+.stat-value {
+  font-family:'Playfair Display',serif;
+  font-size:2rem; color:var(--roca); line-height:1;
+}
+
+.stat-value small {
+  font-size:0.85rem; font-family:'DM Sans',sans-serif;
+  color:var(--muted);
+}
+
+/* Chart cards */
+.chart-card {
+  background:white; border-radius:16px;
+  padding:1.6rem 1.75rem;
+  border:1px solid var(--borde);
+  margin-bottom:1.2rem;
+}
+
+.chart-card h3 {
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem; color:var(--roca);
+  margin-bottom:0.2rem;
+}
+
+.chart-sub { font-size:0.77rem; color:var(--muted); margin-bottom:1.2rem; }
+
+.donut-wrap { max-width:290px; margin:0 auto 0.75rem; }
+
+.legend {
+  display:flex; flex-wrap:wrap;
+  justify-content:center; gap:0.55rem 1.1rem;
+  margin-top:0.6rem;
+}
+
+.leg-item {
+  display:flex; align-items:center; gap:0.38rem;
+  font-size:0.8rem; color:var(--texto);
+}
+
+.leg-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+
+/* Comparativa barras dobles */
+.compare-note {
+  display:flex; align-items:center; gap:1rem;
+  flex-wrap:wrap; margin-bottom:0.9rem;
+}
+
+.cn-item {
+  display:flex; align-items:center; gap:0.4rem;
+  font-size:0.8rem;
+}
+
+.cn-swatch {
+  width:14px; height:14px; border-radius:3px; flex-shrink:0;
+}
+
+.no-data {
+  text-align:center; padding:3.5rem 1rem; color:var(--muted);
+}
+
+.no-emoji { font-size:2.5rem; margin-bottom:0.75rem; }
+
+.refresh-btn {
+  display:flex; align-items:center; gap:0.4rem;
+  margin:0 auto 1.5rem; padding:0.55rem 1.2rem;
+  border:1.5px solid var(--verde); color:var(--verde);
+  background:none; border-radius:8px;
+  font-family:'DM Sans',sans-serif; font-size:0.87rem;
+  cursor:pointer; transition:all 0.18s;
+}
+
+.refresh-btn:hover { background:var(--verdeP); }
+
+.info-strip {
+  background:var(--roca); color:rgba(255,255,255,0.68);
+  border-radius:12px; padding:1.1rem 1.4rem;
+  font-size:0.82rem; line-height:1.65; margin-top:1.5rem;
+}
+
+.info-strip strong { color:white; }
+
+/* ── METODOLOGIA ── */
+.method-steps {
+  display:flex; flex-direction:column; gap:0.85rem;
+  margin-top:1rem;
+}
+
+.step {
+  display:flex; gap:1rem; align-items:flex-start;
+}
+
+.step-num {
+  width:30px; height:30px; border-radius:50%;
+  background:var(--verde); color:white;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.8rem; font-weight:700; flex-shrink:0;
+  margin-top:0.1rem;
+}
+
+.step-body h4 {
+  font-size:0.92rem; font-weight:600;
+  margin-bottom:0.2rem; color:var(--roca);
+}
+
+.step-body p { font-size:0.86rem; color:#555; line-height:1.55; }
+
+footer {
+  text-align:center; padding:1.5rem;
+  font-size:0.78rem; color:var(--muted);
+  border-top:1px solid var(--borde); margin-top:2rem;
+}
+
+footer strong { color:var(--verde); }
+
+@media (max-width:500px) {
+  .intro-section { padding:1.4rem 1.25rem; }
+  .versus-banner { grid-template-columns:1fr; }
+  .vs-center { padding:0.6rem; border:none; border-top:1px solid var(--borde); border-bottom:1px solid var(--borde); }
+}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="emoji-row">🎸 🌱 🎵</div>
-  <div class="header-badge">Física y Química · 2º ESO</div>
-  <h1>La Música en<br><span>Nuestra Vida Diaria</span></h1>
-  <p class="header-intro">
-    Estoy haciendo un proyecto de investigación para la clase de Física y Química de 2º de la ESO.
-    Te agradecería muchísimo si te tomas <strong style="color:white">1 minuto</strong> para responder
-    a estas preguntas de forma totalmente <strong style="color:white">anónima</strong>.
-    ¡Muchas gracias por tu ayuda!
-  </p>
+<!-- ══ HERO ══ -->
+<header class="hero">
+  <div class="hero-badge">Física y Química · 2º ESO · I.E.S. Llanes, Sevilla</div>
+  <h1>La Música en<br><em>Nuestra Vida Diaria</em></h1>
+  <p class="hero-sub">Ignacio Sánchez Romero · 2º B ESO</p>
+  <div class="vs-pill">
+    <span class="vs-rock">🤘 Heavy Metal</span>
+    <span class="vs-sep">vs</span>
+    <span class="vs-regg">🎤 Reggaetón</span>
+  </div>
 </header>
 
 <main>
 
+  <!-- TABS -->
   <div class="tabs">
-    <button class="tab active" onclick="switchTab(this,'form')">📋 Encuesta</button>
+    <button class="tab active" onclick="switchTab(this,'intro')">📖 Proyecto</button>
+    <button class="tab" onclick="switchTab(this,'form')">📋 Encuesta</button>
     <button class="tab" onclick="switchTab(this,'results')">📊 Resultados</button>
   </div>
 
-  <!-- ══ FORMULARIO ══ -->
-  <div id="tab-form" class="tab-panel active">
+  <!-- ══ TAB: PROYECTO ══ -->
+  <div id="tab-intro" class="tab-panel active">
+
+    <!-- Intro -->
+    <div class="intro-section">
+      <div class="section-chip chip-verde">Introducción y justificación</div>
+      <h2>¿Cómo afectan los gustos musicales al crecimiento de las plantas?</h2>
+      <p>
+        Este proyecto une dos cosas muy presentes en nuestras vidas: escuchar música y tener plantas en casa.
+        Ya existen estudios sobre cómo las ondas sonoras afectan al crecimiento vegetal, pero aquí
+        queremos ir más lejos y demostrar si el <em>estilo</em> de la música que escuchas puede influir
+        directamente en ese crecimiento.
+      </p>
+      <p>
+        El proyecto analiza la influencia de las frecuencias del <strong>Heavy Metal</strong> en el
+        desarrollo botánico, planteando si este género musical acelera el crecimiento de los cultivos.
+        La hipótesis plantea que los estímulos sonoros del heavy metal estimulan los procesos celulares
+        de las plantas, acelerando su maduración, mientras que los del Reggaetón no influyen del mismo
+        modo, resultando en un crecimiento más lento.
+      </p>
+      <p>Para validar la hipótesis realizaremos un diseño experimental riguroso que medirá y comparará las variables de crecimiento de forma objetiva.</p>
+    </div>
+
+    <!-- Hipótesis -->
+    <div class="intro-section">
+      <div class="section-chip chip-rock">Formulación de la hipótesis</div>
+      <h2>¿Qué esperamos demostrar?</h2>
+      <div class="hypothesis-box">
+        <strong>"</strong> La exposición diaria a música Heavy Metal genera un mayor desarrollo folicular
+        y crecimiento vertical en las plantas que la exposición a música Reggaetón. <strong>"</strong>
+      </div>
+    </div>
+
+    <!-- Variables -->
+    <div class="intro-section">
+      <div class="section-chip chip-dark">Variables del experimento</div>
+      <h2>¿Qué medimos y qué controlamos?</h2>
+      <p>Establecemos las variables que nos ayudarán a desarrollar el estudio de forma objetiva:</p>
+      <div class="vars-grid">
+        <div class="var-card ind">
+          <div class="var-type">Variable independiente</div>
+          <p>El género musical que escuchan los dueños de las plantas <strong>(Heavy Metal vs Reggaetón)</strong>.</p>
+        </div>
+        <div class="var-card dep">
+          <div class="var-type">Variable dependiente</div>
+          <p>Lo que se mide: la <strong>altura de las plantas en cm</strong> y el <strong>número de hojas</strong>.</p>
+        </div>
+        <div class="var-card ctrl">
+          <div class="var-type">Variable de control</div>
+          <p>El <strong>tipo de plantas</strong> y las condiciones de cuidado (riego, luz, tipo de tierra).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Metodología -->
+    <div class="intro-section">
+      <div class="section-chip chip-verde">Metodología</div>
+      <h2>¿Cómo lo vamos a demostrar?</h2>
+      <div class="method-steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Encuesta</h4>
+            <p>Pasamos una encuesta rápida a personas de diferente sexo y edad. Solo tendremos en cuenta el tipo de música frente a un valor cuantitativo: la altura en cm de sus plantas.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Organización de datos</h4>
+            <p>Las respuestas se organizan en tablas agrupando los resultados por género musical (Heavy Metal vs Reggaetón).</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Comparativa estadística</h4>
+            <p>Calculamos la altura media de las plantas de cada grupo y generamos gráficas comparativas para visualizar las diferencias.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>Análisis y conclusión</h4>
+            <p>Comprobamos si la hipótesis era cierta y compartimos las conclusiones del estudio.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ TAB: ENCUESTA ══ -->
+  <div id="tab-form" class="tab-panel">
     <form id="survey-form" onsubmit="submitForm(event)" novalidate>
 
-      <!-- P1 -->
       <div class="q-card">
         <div class="q-number">Pregunta 1 de 6</div>
         <div class="q-text">En tu casa, ¿qué playlist suena de fondo la mayor parte del tiempo?</div>
@@ -460,7 +635,6 @@
         </div>
       </div>
 
-      <!-- P2 -->
       <div class="q-card">
         <div class="q-number">Pregunta 2 de 6</div>
         <div class="q-text">¿Cuánto tiempo al día se tiene que "tragar" tus plantas esa música?</div>
@@ -471,7 +645,6 @@
         </div>
       </div>
 
-      <!-- P3 -->
       <div class="q-card">
         <div class="q-number">Pregunta 3 de 6</div>
         <div class="q-text">Mójate: ¿cómo ves tus plantas ahora mismo?</div>
@@ -482,17 +655,15 @@
         </div>
       </div>
 
-      <!-- P4 -->
       <div class="q-card">
         <div class="q-number">Pregunta 4 de 6</div>
         <div class="q-text">Di los cm de la planta más grande que haya en tu casa.</div>
-        <div class="num-input-wrap">
+        <div class="num-wrap">
           <input type="number" id="p4" min="0" max="500" placeholder="ej. 45">
-          <span class="num-unit">centímetros (pon 0 si no tienes)</span>
+          <span class="num-unit">cm (pon 0 si no tienes plantas)</span>
         </div>
       </div>
 
-      <!-- P5 -->
       <div class="q-card">
         <div class="q-number">Pregunta 5 de 6</div>
         <div class="q-text">Si tus plantas pudieran hablar, ¿qué dirían de tu música?</div>
@@ -503,7 +674,6 @@
         </div>
       </div>
 
-      <!-- P6 -->
       <div class="q-card">
         <div class="q-number">Pregunta 6 de 6</div>
         <div class="q-text">Seamos realistas, ¿cómo las cuidas?</div>
@@ -521,34 +691,42 @@
       <div class="big-emoji">🌱</div>
       <h3>¡MUCHAS GRACIAS POR COLABORAR!</h3>
       <p>Tu respuesta ha sido guardada de forma anónima.<br>¡Estás contribuyendo a la ciencia!</p>
-      <button class="goto-btn" onclick="goToResults()">Ver los resultados →</button>
+      <button class="goto-btn" onclick="goTo('results')">Ver los resultados →</button>
     </div>
   </div>
 
-  <!-- ══ RESULTADOS ══ -->
+  <!-- ══ TAB: RESULTADOS ══ -->
   <div id="tab-results" class="tab-panel">
     <div id="results-content">
       <div class="no-data"><div class="no-emoji">📊</div><p>Cargando resultados…</p></div>
     </div>
     <button class="refresh-btn" onclick="loadResults()">🔄 Actualizar resultados</button>
     <div class="info-strip">
-      <strong>ℹ️ Sobre los datos:</strong> Las respuestas se guardan de forma totalmente anónima.
-      Proyecto de <strong>Física y Química · 2º ESO</strong>.
+      <strong>ℹ️ Sobre los datos:</strong> Todas las respuestas son anónimas. Las gráficas comparan
+      los resultados de quienes escuchan <strong>Heavy Metal / Rock</strong> frente a quienes escuchan
+      <strong>Reggaetón</strong>. Proyecto de <strong>Física y Química · 2º ESO · I.E.S. Llanes</strong>.
     </div>
   </div>
 
 </main>
 
 <footer>
-  Proyecto escolar · <strong>La Música en Nuestra Vida Diaria</strong> · 2º ESO · Física y Química
+  Proyecto escolar · <strong>La Música en Nuestra Vida Diaria</strong> · Ignacio Sánchez Romero · 2º B ESO · I.E.S. Llanes, Sevilla
 </footer>
 
 <script>
-/* ══ CONFIG ══ */
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZoSjp1manEx7-ajo1uMirZ6jSgp2VgkNhYLIbIwYISSL_jPOXL54Zqv-vnUcIZggj/exec';
+/* ═══════ CONFIG ═══════ */
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbypGeMzJsrUXI7g5bifazSxyQlMm6r5x4B4L0zaJF9VgfMG4PJlyJOniUUObkB2FvI6/exec';
 const DEMO_MODE  = SCRIPT_URL === 'TU_URL_DE_GOOGLE_APPS_SCRIPT_AQUÍ';
 
-/* ══ TABS ══ */
+const C = {
+  rock:  '#457b9d', rockL: '#d6e8f5',
+  regg:  '#c1121f', reggL: '#fce8e8',
+  otros: '#e9a84c', gris:  '#bec4cc',
+  verde: '#2d6a4f', verdeC:'#74c69d',
+};
+
+/* ═══════ TABS ═══════ */
 function switchTab(btn, name) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -557,133 +735,142 @@ function switchTab(btn, name) {
   if (name === 'results') loadResults();
 }
 
-function goToResults() {
-  const btn = document.querySelectorAll('.tab')[1];
-  switchTab(btn, 'results');
+function goTo(name) {
+  const idx = { intro:0, form:1, results:2 };
+  const btn = document.querySelectorAll('.tab')[idx[name]];
+  switchTab(btn, name);
 }
 
-/* ══ VALIDAR Y ENVIAR ══ */
+/* ═══════ SUBMIT ═══════ */
 async function submitForm(e) {
   e.preventDefault();
   const errEl = document.getElementById('form-error');
   errEl.style.display = 'none';
 
-  const radios = ['p1','p2','p3','p5','p6'];
-  for (const name of radios) {
+  for (const name of ['p1','p2','p3','p5','p6']) {
     if (!document.querySelector(`input[name="${name}"]:checked`)) {
       errEl.textContent = 'Por favor, responde a todas las preguntas antes de enviar.';
       errEl.style.display = 'block';
-      errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      errEl.scrollIntoView({ behavior:'smooth', block:'center' });
       return;
     }
   }
 
   const p4val = document.getElementById('p4').value;
   if (p4val === '' || isNaN(p4val) || Number(p4val) < 0) {
-    errEl.textContent = 'Indica los centímetros de tu planta más grande (escribe 0 si no tienes plantas).';
+    errEl.textContent = 'Indica los cm de tu planta más grande (escribe 0 si no tienes plantas).';
     errEl.style.display = 'block';
-    errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    errEl.scrollIntoView({ behavior:'smooth', block:'center' });
     return;
   }
 
   const data = {
-    timestamp:   new Date().toISOString(),
-    p1:          document.querySelector('input[name="p1"]:checked').value,
-    p2:          document.querySelector('input[name="p2"]:checked').value,
-    p3:          document.querySelector('input[name="p3"]:checked').value,
-    p4_cm:       Number(p4val),
-    p5:          document.querySelector('input[name="p5"]:checked').value,
-    p6:          document.querySelector('input[name="p6"]:checked').value,
+    timestamp: new Date().toISOString(),
+    p1: document.querySelector('input[name="p1"]:checked').value,
+    p2: document.querySelector('input[name="p2"]:checked').value,
+    p3: document.querySelector('input[name="p3"]:checked').value,
+    p4_cm: Number(p4val),
+    p5: document.querySelector('input[name="p5"]:checked').value,
+    p6: document.querySelector('input[name="p6"]:checked').value,
   };
 
   if (DEMO_MODE) {
-    const prev = JSON.parse(localStorage.getItem('enc_musica_v3') || '[]');
+    const prev = JSON.parse(localStorage.getItem('enc_musica_v4') || '[]');
     prev.push(data);
-    localStorage.setItem('enc_musica_v3', JSON.stringify(prev));
+    localStorage.setItem('enc_musica_v4', JSON.stringify(prev));
   } else {
-    try {
-      await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) });
-    } catch(err) { console.warn('Error al enviar:', err); }
+    try { await fetch(SCRIPT_URL, { method:'POST', body: JSON.stringify(data) }); }
+    catch(err) { console.warn('Error al enviar:', err); }
   }
 
   document.getElementById('survey-form').style.display = 'none';
   document.getElementById('success-msg').style.display = 'block';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top:0, behavior:'smooth' });
 }
 
-/* ══ CHARTS ══ */
+/* ═══════ CHARTS ═══════ */
 let charts = {};
 
-function destroyCharts() {
+function killCharts() {
   Object.values(charts).forEach(c => { try { c.destroy(); } catch(e){} });
   charts = {};
 }
 
-const C = {
-  rock:    '#457b9d',
-  regg:    '#e63946',
-  silencio:'#adb5bd',
-  otros:   '#e9a84c',
-  verde:   '#2d6a4f',
-  verdeC:  '#74c69d',
-  verdeX:  '#1a3d2b',
-  coral:   '#d97b78',
-  gris:    '#adb5bd',
-};
-
-function makeDoughnut(id, labels, data, colors) {
+function doughnut(id, labels, data, colors) {
   const ctx = document.getElementById(id);
   if (!ctx) return;
   charts[id] = new Chart(ctx.getContext('2d'), {
     type: 'doughnut',
     data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 0 }] },
     options: {
-      cutout: '62%',
+      cutout: '60%',
       plugins: {
         legend: { display: false },
-        tooltip: { callbacks: { label: c => ` ${c.label}: ${c.raw} respuesta${c.raw!==1?'s':''}` } }
+        tooltip: { callbacks: { label: c => ` ${c.label}: ${c.raw}` } }
       },
       animation: { animateScale: true }
     }
   });
 }
 
-function makeBar(id, labels, data, colors) {
+function barGrouped(id, labels, datasets, opts={}) {
   const ctx = document.getElementById(id);
   if (!ctx) return;
   charts[id] = new Chart(ctx.getContext('2d'), {
     type: 'bar',
-    data: { labels, datasets: [{ data, backgroundColor: colors, borderRadius: 8, borderSkipped: false }] },
+    data: { labels, datasets },
     options: {
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` ${c.raw} respuesta${c.raw!==1?'s':''}` } } },
+      indexAxis: opts.horizontal ? 'y' : 'x',
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => ` ${c.dataset.label}: ${c.raw}` } }
+      },
       scales: {
-        x: { grid: { display: false } },
-        y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { stepSize: 1 } }
+        x: { grid: { display: opts.horizontal }, ticks: { font: { size: 11 } } },
+        y: { grid: { color:'rgba(0,0,0,0.05)' }, ticks: { stepSize:1, font:{ size:11 } } }
+      },
+      barPercentage: 0.65,
+      categoryPercentage: 0.75,
+    }
+  });
+}
+
+function barSingle(id, labels, data, colors) {
+  const ctx = document.getElementById(id);
+  if (!ctx) return;
+  charts[id] = new Chart(ctx.getContext('2d'), {
+    type:'bar',
+    data:{ labels, datasets:[{ data, backgroundColor:colors, borderRadius:8, borderSkipped:false }] },
+    options:{
+      plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:c => ` ${c.raw}` } } },
+      scales:{
+        x:{ grid:{ display:false } },
+        y:{ grid:{ color:'rgba(0,0,0,0.05)' }, ticks:{ stepSize:1 } }
       }
     }
   });
 }
 
-function legendHTML(labels, colors) {
+function legend(labels, colors) {
   return `<div class="legend">${labels.map((l,i) =>
-    `<span class="legend-item"><span class="legend-dot" style="background:${colors[i]}"></span>${l}</span>`
+    `<span class="leg-item"><span class="leg-dot" style="background:${colors[i]}"></span>${l}</span>`
   ).join('')}</div>`;
 }
 
-/* ══ CARGAR RESULTADOS ══ */
+/* ═══════ LOAD RESULTS ═══════ */
 async function loadResults() {
   let R = [];
   if (DEMO_MODE) {
-    R = JSON.parse(localStorage.getItem('enc_musica_v3') || '[]');
+    R = JSON.parse(localStorage.getItem('enc_musica_v4') || '[]');
   } else {
     try {
-      const res = await fetch(SCRIPT_URL + '?action=get');
+      const res  = await fetch(SCRIPT_URL + '?action=get');
       const json = await res.json();
       R = json.data || [];
     } catch(err) { console.warn('Error cargando:', err); }
   }
 
-  destroyCharts();
+  killCharts();
   const el = document.getElementById('results-content');
 
   if (R.length === 0) {
@@ -693,90 +880,180 @@ async function loadResults() {
 
   const N = R.length;
 
-  /* — P1 playlist — */
-  const p1L = ['🤘 Rock duro', '🎤 Reggaetón', '🔇 Sin música', '🎶 Otros'];
-  const p1V = ['Heavy metal / Rock duro','Reggaetón / música urbana','No suelo escuchar música en casa','Otros géneros'];
-  const p1D = p1V.map(v => R.filter(r => r.p1 === v).length);
-  const p1C = [C.rock, C.regg, C.silencio, C.otros];
+  /* ── GRUPOS PRINCIPALES ── */
+  const grpRock = R.filter(r => r.p1 === 'Heavy metal / Rock duro');
+  const grpRegg = R.filter(r => r.p1 === 'Reggaetón / música urbana');
+  const grpOtro = R.filter(r => r.p1 === 'No suelo escuchar música en casa' || r.p1 === 'Otros géneros');
 
-  /* — P2 tiempo — */
-  const p2L = ['Menos de 1h', 'Entre 1 y 3h', 'Más de 3h'];
-  const p2V = ['Menos de una hora','Entre 1 y 3 horas','Más de 3 horas'];
-  const p2D = p2V.map(v => R.filter(r => r.p2 === v).length);
-  const p2C = [C.verdeC, C.verde, C.verdeX];
+  const nRock = grpRock.length, nRegg = grpRegg.length;
 
-  /* — P3 estado — */
-  const p3L = ['🌴 Selva', '🌿 Normales', '🥀 Pochas'];
-  const p3V = ['Gigantes, parece una selva','Normales, ni fu ni fa','Pochas y super pequeñas'];
-  const p3D = p3V.map(v => R.filter(r => r.p3 === v).length);
-  const p3C = [C.verde, C.verdeC, C.coral];
+  /* ── Altura media por grupo ── */
+  function avgCm(grupo) {
+    const vals = grupo.map(r => parseFloat(r.p4_cm)).filter(n => !isNaN(n) && n > 0);
+    return vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1) : '—';
+  }
 
-  /* — P4 cm — */
-  const cms = R.map(r => parseFloat(r.p4_cm)).filter(n => !isNaN(n) && n > 0);
-  const avgCm = cms.length ? (cms.reduce((a,b)=>a+b,0)/cms.length).toFixed(1) : '—';
-  const maxCm = cms.length ? Math.max(...cms) : '—';
+  const avgRock = avgCm(grpRock);
+  const avgRegg = avgCm(grpRegg);
+  const avgGlobal = avgCm(R);
+  const maxCm = Math.max(...R.map(r=>parseFloat(r.p4_cm)).filter(n=>!isNaN(n)&&n>0), 0) || '—';
 
-  /* — P5 opinión planta — */
-  const p5L = ['🌟 ¡Les flipa!', '💧 Les da igual', '😵 Se marchitan'];
-  const p5V = ['¡Me flipa! Desde que la pones crezco más','Me da igual, yo solo quiero agua','Apaga eso, me estoy marchitando'];
-  const p5D = p5V.map(v => R.filter(r => r.p5 === v).length);
-  const p5C = [C.verde, C.gris, C.coral];
+  /* ── Estado plantas por grupo ── */
+  function countState(grupo, val) {
+    return grupo.filter(r => r.p3 === val).length;
+  }
 
-  /* — P6 cuidado — */
-  const p6Exp = R.filter(r => r.p6 === 'Modo experto').length;
-  const p6Olv = R.filter(r => r.p6 === 'Modo olvidadizo').length;
+  const estadoLabels = ['🌴 Selva','🌿 Normales','🥀 Pochas'];
+  const estadoVals   = ['Gigantes, parece una selva','Normales, ni fu ni fa','Pochas y super pequeñas'];
+
+  /* ── Horas exposición por grupo ── */
+  const horasLabels = ['< 1h','1-3h','> 3h'];
+  const horasVals   = ['Menos de una hora','Entre 1 y 3 horas','Más de 3 horas'];
+
+  /* ── Cuidado por grupo ── */
+  const cuidExp  = [grpRock.filter(r=>r.p6==='Modo experto').length,   grpRegg.filter(r=>r.p6==='Modo experto').length];
+  const cuidOlv  = [grpRock.filter(r=>r.p6==='Modo olvidadizo').length, grpRegg.filter(r=>r.p6==='Modo olvidadizo').length];
+
+  /* ── Opinión planta por grupo ── */
+  const p5Vals   = ['¡Me flipa! Desde que la pones crezco más','Me da igual, yo solo quiero agua','Apaga eso, me estoy marchitando'];
+  const p5Labels = ['🌟 Les flipa','💧 Les da igual','😵 Se marchitan'];
 
   el.innerHTML = `
+
+    <!-- Banner versus -->
+    <div class="versus-banner">
+      <div class="vs-side rock-side">
+        <div class="vs-genre">🤘 Heavy Metal / Rock</div>
+        <div class="vs-n">${nRock}</div>
+        <div class="vs-label">respuestas · media <strong>${avgRock} cm</strong></div>
+      </div>
+      <div class="vs-center">VS</div>
+      <div class="vs-side regg-side">
+        <div class="vs-genre">🎤 Reggaetón</div>
+        <div class="vs-n">${nRegg}</div>
+        <div class="vs-label">respuestas · media <strong>${avgRegg} cm</strong></div>
+      </div>
+    </div>
+
+    <!-- Stats globales -->
     <div class="stats-row">
       <div class="stat-card"><div class="stat-label">Total respuestas</div><div class="stat-value">${N}</div></div>
-      <div class="stat-card"><div class="stat-label">Altura media</div><div class="stat-value">${avgCm}<small> cm</small></div></div>
+      <div class="stat-card"><div class="stat-label">Altura media global</div><div class="stat-value">${avgGlobal}<small> cm</small></div></div>
       <div class="stat-card"><div class="stat-label">Planta más alta</div><div class="stat-value">${maxCm}<small> cm</small></div></div>
-      <div class="stat-card"><div class="stat-label">Modo experto</div><div class="stat-value">${N ? Math.round(p6Exp/N*100) : 0}<small>%</small></div></div>
     </div>
 
+    <!-- ── GRÁFICA PRINCIPAL: altura media comparada ── -->
     <div class="chart-card">
-      <h3>🎵 ¿Qué música suena en casa?</h3>
-      <div class="chart-sub">Pregunta 1 — género musical predominante</div>
-      <div class="donut-wrap"><canvas id="c-p1" height="270"></canvas></div>
-      ${legendHTML(p1L, p1C)}
+      <h3>📏 Altura media de las plantas — Rock vs Reggaetón</h3>
+      <div class="chart-sub">Variable dependiente clave del experimento (cm)</div>
+      <canvas id="c-altura" height="200"></canvas>
+      <div class="compare-note">
+        <span class="cn-item"><span class="cn-swatch" style="background:${C.rock}"></span>Heavy Metal / Rock</span>
+        <span class="cn-item"><span class="cn-swatch" style="background:${C.regg}"></span>Reggaetón</span>
+        <span class="cn-item"><span class="cn-swatch" style="background:${C.gris}"></span>Otros / Sin música</span>
+      </div>
     </div>
 
+    <!-- ── Estado de las plantas por grupo ── -->
     <div class="chart-card">
-      <h3>⏱️ ¿Cuánto tiempo aguantan las plantas?</h3>
-      <div class="chart-sub">Pregunta 2 — horas de exposición musical al día</div>
-      <div class="donut-wrap"><canvas id="c-p2" height="270"></canvas></div>
-      ${legendHTML(p2L, p2C)}
+      <h3>🌿 ¿Cómo están las plantas? — por grupo musical</h3>
+      <div class="chart-sub">Pregunta 3 — estado visual declarado, comparado entre grupos</div>
+      <canvas id="c-estado" height="230"></canvas>
+      <div class="compare-note">
+        <span class="cn-item"><span class="cn-swatch" style="background:${C.rock}"></span>Heavy Metal / Rock</span>
+        <span class="cn-item"><span class="cn-swatch" style="background:${C.regg}"></span>Reggaetón</span>
+      </div>
     </div>
 
+    <!-- ── Horas de exposición por grupo ── -->
     <div class="chart-card">
-      <h3>🌿 ¿Cómo están las plantas?</h3>
-      <div class="chart-sub">Pregunta 3 — estado visual declarado</div>
-      <div class="donut-wrap"><canvas id="c-p3" height="270"></canvas></div>
-      ${legendHTML(p3L, p3C)}
+      <h3>⏱️ Horas de exposición musical — por grupo</h3>
+      <div class="chart-sub">Pregunta 2 — tiempo diario que las plantas oyen música</div>
+      <canvas id="c-horas" height="230"></canvas>
+      <div class="compare-note">
+        <span class="cn-item"><span class="cn-swatch" style="background:${C.rock}"></span>Heavy Metal / Rock</span>
+        <span class="cn-item"><span class="cn-swatch" style="background:${C.regg}"></span>Reggaetón</span>
+      </div>
     </div>
 
+    <!-- ── Cuidado de plantas por grupo ── -->
     <div class="chart-card">
-      <h3>🗣️ Si las plantas pudieran hablar…</h3>
-      <div class="chart-sub">Pregunta 5 — opinión imaginaria de las plantas sobre la música</div>
-      <div class="donut-wrap"><canvas id="c-p5" height="270"></canvas></div>
-      ${legendHTML(p5L, p5C)}
+      <h3>🧑‍🌾 Modo de cuidado — por grupo musical</h3>
+      <div class="chart-sub">Pregunta 6 — ¿influye el estilo musical en cómo cuidan las plantas?</div>
+      <canvas id="c-cuidado" height="220"></canvas>
+      <div class="compare-note">
+        <span class="cn-item"><span class="cn-swatch" style="background:${C.rock}"></span>Heavy Metal / Rock</span>
+        <span class="cn-item"><span class="cn-swatch" style="background:${C.regg}"></span>Reggaetón</span>
+      </div>
     </div>
 
+    <!-- ── Opinión de las plantas por grupo ── -->
     <div class="chart-card">
-      <h3>🧑‍🌾 ¿Cómo las cuidan?</h3>
-      <div class="chart-sub">Pregunta 6 — nivel de cuidado declarado</div>
-      <canvas id="c-p6" height="180"></canvas>
+      <h3>🗣️ ¿Qué dirían las plantas? — por grupo musical</h3>
+      <div class="chart-sub">Pregunta 5 — percepción subjetiva del efecto de la música</div>
+      <canvas id="c-opinion" height="230"></canvas>
+      <div class="compare-note">
+        <span class="cn-item"><span class="cn-swatch" style="background:${C.rock}"></span>Heavy Metal / Rock</span>
+        <span class="cn-item"><span class="cn-swatch" style="background:${C.regg}"></span>Reggaetón</span>
+      </div>
+    </div>
+
+    <!-- ── Distribución general de géneros ── -->
+    <div class="chart-card">
+      <h3>🎵 Distribución general de géneros musicales</h3>
+      <div class="chart-sub">Pregunta 1 — toda la muestra</div>
+      <div class="donut-wrap"><canvas id="c-genero" height="270"></canvas></div>
+      ${legend(['🤘 Rock/Metal','🎤 Reggaetón','🔇 Sin música','🎶 Otros'],[C.rock,C.regg,C.gris,C.otros])}
     </div>
   `;
 
-  makeDoughnut('c-p1', p1L, p1D, p1C);
-  makeDoughnut('c-p2', p2L, p2D, p2C);
-  makeDoughnut('c-p3', p3L, p3D, p3C);
-  makeDoughnut('c-p5', p5L, p5D, p5C);
-  makeBar('c-p6',
-    ['🧑‍🌾 Modo experto', '🤷 Modo olvidadizo'],
-    [p6Exp, p6Olv],
-    [C.verde, C.otros]
+  /* ── Render charts ── */
+
+  // Altura media comparada (barras simples)
+  const alturaAvgs = [
+    parseFloat(avgRock) || 0,
+    parseFloat(avgRegg) || 0,
+    parseFloat(avgCm(grpOtro)) || 0
+  ];
+  barSingle('c-altura',
+    ['🤘 Rock / Metal', '🎤 Reggaetón', '🔇 Otros / Sin música'],
+    alturaAvgs,
+    [C.rock, C.regg, C.gris]
+  );
+
+  // Estado plantas agrupado (Rock vs Reggaetón por estado)
+  barGrouped('c-estado', estadoLabels, [
+    { label:'Rock/Metal', data: estadoVals.map(v => countState(grpRock,v)), backgroundColor: C.rock + 'cc', borderRadius:6 },
+    { label:'Reggaetón',  data: estadoVals.map(v => countState(grpRegg,v)), backgroundColor: C.regg + 'cc', borderRadius:6 },
+  ]);
+
+  // Horas agrupado
+  barGrouped('c-horas', horasLabels, [
+    { label:'Rock/Metal', data: horasVals.map(v => grpRock.filter(r=>r.p2===v).length), backgroundColor: C.rock + 'cc', borderRadius:6 },
+    { label:'Reggaetón',  data: horasVals.map(v => grpRegg.filter(r=>r.p2===v).length), backgroundColor: C.regg + 'cc', borderRadius:6 },
+  ]);
+
+  // Cuidado agrupado
+  barGrouped('c-cuidado', ['🤘 Rock · Experto','🤘 Rock · Olvidadizo','🎤 Regg · Experto','🎤 Regg · Olvidadizo'], [
+    { label:'Datos', data:[cuidExp[0], cuidOlv[0], cuidExp[1], cuidOlv[1]], backgroundColor:[C.rock,C.rock+'88',C.regg,C.regg+'88'], borderRadius:7, borderSkipped:false }
+  ]);
+
+  // Opinión planta agrupado
+  barGrouped('c-opinion', p5Labels, [
+    { label:'Rock/Metal', data: p5Vals.map(v => grpRock.filter(r=>r.p5===v).length), backgroundColor: C.rock + 'cc', borderRadius:6 },
+    { label:'Reggaetón',  data: p5Vals.map(v => grpRegg.filter(r=>r.p5===v).length), backgroundColor: C.regg + 'cc', borderRadius:6 },
+  ]);
+
+  // Distribución global (dona)
+  doughnut('c-genero',
+    ['Rock/Metal','Reggaetón','Sin música','Otros'],
+    [
+      R.filter(r=>r.p1==='Heavy metal / Rock duro').length,
+      R.filter(r=>r.p1==='Reggaetón / música urbana').length,
+      R.filter(r=>r.p1==='No suelo escuchar música en casa').length,
+      R.filter(r=>r.p1==='Otros géneros').length
+    ],
+    [C.rock, C.regg, C.gris, C.otros]
   );
 }
 

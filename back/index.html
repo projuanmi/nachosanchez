@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Música en Nuestra Vida Diaria — 2º ESO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --verde: #2d6a4f;
+    --verde-claro: #74c69d;
+    --verde-palido: #d8f3dc;
+    --roca: #1a1a2e;
+    --reggaeton: #e63946;
+    --rock: #457b9d;
+    --crema: #fefae0;
+    --texto: #1a1a2e;
+    --muted: #6c757d;
+    --borde: rgba(0,0,0,0.09);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--crema);
+    color: var(--texto);
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--roca);
+    color: white;
+    text-align: center;
+    padding: 3rem 1.5rem 3.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 44px;
+    background: var(--crema);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+
+  .header-badge {
+    display: inline-block;
+    background: var(--verde);
+    color: white;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.7rem, 5vw, 2.8rem);
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+
+  header h1 span { color: var(--verde-claro); }
+
+  .header-intro {
+    color: rgba(255,255,255,0.72);
+    font-size: 0.92rem;
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  .emoji-row { font-size: 1.8rem; margin-bottom: 0.75rem; letter-spacing: 0.3em; }
+
+  main {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 2.5rem 1.25rem 4rem;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1.5px solid var(--borde);
+  }
+
+  .tab {
+    padding: 0.6rem 1.4rem;
+    border: none;
+    background: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1.5px;
+    transition: all 0.18s;
+    border-radius: 4px 4px 0 0;
+  }
+
+  .tab.active { color: var(--verde); border-bottom-color: var(--verde); }
+  .tab:hover:not(.active) { color: var(--texto); background: rgba(0,0,0,0.03); }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .q-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.6rem 1.75rem;
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--borde);
+  }
+
+  .q-number {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--verde);
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+  }
+
+  .q-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.08rem;
+    color: var(--roca);
+    margin-bottom: 1.1rem;
+    line-height: 1.4;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 0.55rem; }
+
+  .opt { position: relative; }
+
+  .opt input[type="radio"] {
+    position: absolute; opacity: 0; width: 0; height: 0;
+  }
+
+  .opt label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.92rem;
+    transition: all 0.16s;
+    background: #fafafa;
+    line-height: 1.4;
+    color: var(--texto);
+  }
+
+  .opt-letter {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    border: 1.5px solid #d0d0d0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: all 0.16s;
+  }
+
+  .opt input:checked + label {
+    border-color: var(--verde);
+    background: var(--verde-palido);
+    color: var(--verde);
+    font-weight: 500;
+  }
+
+  .opt input:checked + label .opt-letter {
+    background: var(--verde);
+    border-color: var(--verde);
+    color: white;
+  }
+
+  .opt label:hover { border-color: var(--verde-claro); background: #f0faf4; }
+
+  .num-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  input[type="number"] {
+    width: 110px;
+    padding: 0.65rem 0.9rem;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    color: var(--texto);
+    background: #fafafa;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -moz-appearance: textfield;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+  input[type="number"]:focus {
+    outline: none;
+    border-color: var(--verde);
+    box-shadow: 0 0 0 3px rgba(45,106,79,0.1);
+    background: white;
+  }
+
+  .num-unit { font-size: 0.9rem; color: var(--muted); }
+
+  .form-error {
+    display: none;
+    color: #922;
+    font-size: 0.88rem;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: #fce8e8;
+    border-radius: 8px;
+    border: 1px solid #f5c0c0;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 0.95rem;
+    background: var(--verde);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 0.25rem;
+    letter-spacing: 0.01em;
+  }
+
+  .submit-btn:hover { background: #235c40; }
+  .submit-btn:active { transform: scale(0.98); }
+
+  .success-msg {
+    display: none;
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    background: var(--verde-palido);
+    border-radius: 16px;
+    border: 1px solid var(--verde-claro);
+  }
+
+  .success-msg .big-emoji { font-size: 3rem; margin-bottom: 0.75rem; }
+
+  .success-msg h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--verde);
+    margin-bottom: 0.5rem;
+  }
+
+  .success-msg p { color: #2d6a4f; font-size: 0.95rem; margin-bottom: 1.25rem; }
+
+  .goto-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.65rem 1.5rem;
+    background: var(--verde);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .goto-btn:hover { background: #235c40; }
+
+  /* RESULTS */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .stat-card {
+    background: white;
+    border-radius: 14px;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid var(--borde);
+    text-align: center;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+  }
+
+  .stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--roca);
+    line-height: 1;
+  }
+
+  .stat-value small {
+    font-size: 0.9rem;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--muted);
+  }
+
+  .chart-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.75rem;
+    border: 1px solid var(--borde);
+    margin-bottom: 1.25rem;
+  }
+
+  .chart-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--roca);
+    margin-bottom: 0.2rem;
+  }
+
+  .chart-sub {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .donut-wrap {
+    max-width: 300px;
+    margin: 0 auto 0.75rem;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem 1.2rem;
+    margin-top: 0.75rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    color: var(--texto);
+  }
+
+  .legend-dot {
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .no-data {
+    text-align: center;
+    padding: 3.5rem 1rem;
+    color: var(--muted);
+  }
+
+  .no-emoji { font-size: 2.5rem; margin-bottom: 0.75rem; }
+
+  .refresh-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0 auto 1.5rem;
+    padding: 0.55rem 1.25rem;
+    border: 1.5px solid var(--verde);
+    color: var(--verde);
+    background: none;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+
+  .refresh-btn:hover { background: var(--verde-palido); }
+
+  .info-strip {
+    background: var(--roca);
+    color: rgba(255,255,255,0.7);
+    border-radius: 12px;
+    padding: 1.1rem 1.4rem;
+    font-size: 0.83rem;
+    line-height: 1.65;
+    margin-top: 1.5rem;
+  }
+
+  .info-strip strong { color: white; }
+
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    border-top: 1px solid var(--borde);
+    margin-top: 2rem;
+  }
+
+  footer strong { color: var(--verde); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="emoji-row">🎸 🌱 🎵</div>
+  <div class="header-badge">Física y Química · 2º ESO</div>
+  <h1>La Música en<br><span>Nuestra Vida Diaria</span></h1>
+  <p class="header-intro">
+    Estoy haciendo un proyecto de investigación para la clase de Física y Química de 2º de la ESO.
+    Te agradecería muchísimo si te tomas <strong style="color:white">1 minuto</strong> para responder
+    a estas preguntas de forma totalmente <strong style="color:white">anónima</strong>.
+    ¡Muchas gracias por tu ayuda!
+  </p>
+</header>
+
+<main>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(this,'form')">📋 Encuesta</button>
+    <button class="tab" onclick="switchTab(this,'results')">📊 Resultados</button>
+  </div>
+
+  <!-- ══ FORMULARIO ══ -->
+  <div id="tab-form" class="tab-panel active">
+    <form id="survey-form" onsubmit="submitForm(event)" novalidate>
+
+      <!-- P1 -->
+      <div class="q-card">
+        <div class="q-number">Pregunta 1 de 6</div>
+        <div class="q-text">En tu casa, ¿qué playlist suena de fondo la mayor parte del tiempo?</div>
+        <div class="options">
+          <div class="opt"><input type="radio" name="p1" id="p1a" value="Heavy metal / Rock duro"><label for="p1a"><span class="opt-letter">A</span>🤘 Heavy metal / Rock duro</label></div>
+          <div class="opt"><input type="radio" name="p1" id="p1b" value="Reggaetón / música urbana"><label for="p1b"><span class="opt-letter">B</span>🎤 Reggaetón / música urbana</label></div>
+          <div class="opt"><input type="radio" name="p1" id="p1c" value="No suelo escuchar música en casa"><label for="p1c"><span class="opt-letter">C</span>🔇 No suelo escuchar música en casa</label></div>
+          <div class="opt"><input type="radio" name="p1" id="p1d" value="Otros géneros"><label for="p1d"><span class="opt-letter">D</span>🎶 Otros géneros</label></div>
+        </div>
+      </div>
+
+      <!-- P2 -->
+      <div class="q-card">
+        <div class="q-number">Pregunta 2 de 6</div>
+        <div class="q-text">¿Cuánto tiempo al día se tiene que "tragar" tus plantas esa música?</div>
+        <div class="options">
+          <div class="opt"><input type="radio" name="p2" id="p2a" value="Menos de una hora"><label for="p2a"><span class="opt-letter">A</span>⏱️ Menos de una hora</label></div>
+          <div class="opt"><input type="radio" name="p2" id="p2b" value="Entre 1 y 3 horas"><label for="p2b"><span class="opt-letter">B</span>⏰ Entre 1 y 3 horas</label></div>
+          <div class="opt"><input type="radio" name="p2" id="p2c" value="Más de 3 horas"><label for="p2c"><span class="opt-letter">C</span>🕐 Más de 3 horas</label></div>
+        </div>
+      </div>
+
+      <!-- P3 -->
+      <div class="q-card">
+        <div class="q-number">Pregunta 3 de 6</div>
+        <div class="q-text">Mójate: ¿cómo ves tus plantas ahora mismo?</div>
+        <div class="options">
+          <div class="opt"><input type="radio" name="p3" id="p3a" value="Gigantes, parece una selva"><label for="p3a"><span class="opt-letter">A</span>🌴 Están gigantes, parece una selva</label></div>
+          <div class="opt"><input type="radio" name="p3" id="p3b" value="Normales, ni fu ni fa"><label for="p3b"><span class="opt-letter">B</span>🌿 Normales, ni fu ni fa</label></div>
+          <div class="opt"><input type="radio" name="p3" id="p3c" value="Pochas y super pequeñas"><label for="p3c"><span class="opt-letter">C</span>🥀 Pochas y super pequeñas</label></div>
+        </div>
+      </div>
+
+      <!-- P4 -->
+      <div class="q-card">
+        <div class="q-number">Pregunta 4 de 6</div>
+        <div class="q-text">Di los cm de la planta más grande que haya en tu casa.</div>
+        <div class="num-input-wrap">
+          <input type="number" id="p4" min="0" max="500" placeholder="ej. 45">
+          <span class="num-unit">centímetros (pon 0 si no tienes)</span>
+        </div>
+      </div>
+
+      <!-- P5 -->
+      <div class="q-card">
+        <div class="q-number">Pregunta 5 de 6</div>
+        <div class="q-text">Si tus plantas pudieran hablar, ¿qué dirían de tu música?</div>
+        <div class="options">
+          <div class="opt"><input type="radio" name="p5" id="p5a" value="¡Me flipa! Desde que la pones crezco más"><label for="p5a"><span class="opt-letter">A</span>🌟 ¡Me flipa! Desde que las pones tengo más energía y crezco más</label></div>
+          <div class="opt"><input type="radio" name="p5" id="p5b" value="Me da igual, yo solo quiero agua"><label for="p5b"><span class="opt-letter">B</span>💧 Me da exactamente igual, yo solo quiero agua</label></div>
+          <div class="opt"><input type="radio" name="p5" id="p5c" value="Apaga eso, me estoy marchitando"><label for="p5c"><span class="opt-letter">C</span>😵 Apaga eso por favor, que me estoy marchitando</label></div>
+        </div>
+      </div>
+
+      <!-- P6 -->
+      <div class="q-card">
+        <div class="q-number">Pregunta 6 de 6</div>
+        <div class="q-text">Seamos realistas, ¿cómo las cuidas?</div>
+        <div class="options">
+          <div class="opt"><input type="radio" name="p6" id="p6a" value="Modo experto"><label for="p6a"><span class="opt-letter">A</span>🧑‍🌾 Modo experto: tienen buena luz, tierra de la buena y agua cuando toca</label></div>
+          <div class="opt"><input type="radio" name="p6" id="p6b" value="Modo olvidadizo"><label for="p6b"><span class="opt-letter">B</span>🤷 Modo olvidadizo: las riego cuando me acuerdo y están donde caigan</label></div>
+        </div>
+      </div>
+
+      <div class="form-error" id="form-error"></div>
+      <button type="submit" class="submit-btn">¡COLABORAR CON LA CIENCIA! 🔬</button>
+    </form>
+
+    <div class="success-msg" id="success-msg">
+      <div class="big-emoji">🌱</div>
+      <h3>¡MUCHAS GRACIAS POR COLABORAR!</h3>
+      <p>Tu respuesta ha sido guardada de forma anónima.<br>¡Estás contribuyendo a la ciencia!</p>
+      <button class="goto-btn" onclick="goToResults()">Ver los resultados →</button>
+    </div>
+  </div>
+
+  <!-- ══ RESULTADOS ══ -->
+  <div id="tab-results" class="tab-panel">
+    <div id="results-content">
+      <div class="no-data"><div class="no-emoji">📊</div><p>Cargando resultados…</p></div>
+    </div>
+    <button class="refresh-btn" onclick="loadResults()">🔄 Actualizar resultados</button>
+    <div class="info-strip">
+      <strong>ℹ️ Sobre los datos:</strong> Las respuestas se guardan de forma totalmente anónima.
+      Proyecto de <strong>Física y Química · 2º ESO</strong>.
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Proyecto escolar · <strong>La Música en Nuestra Vida Diaria</strong> · 2º ESO · Física y Química
+</footer>
+
+<script>
+/* ══ CONFIG ══ */
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZoSjp1manEx7-ajo1uMirZ6jSgp2VgkNhYLIbIwYISSL_jPOXL54Zqv-vnUcIZggj/exec';
+const DEMO_MODE  = SCRIPT_URL === 'TU_URL_DE_GOOGLE_APPS_SCRIPT_AQUÍ';
+
+/* ══ TABS ══ */
+function switchTab(btn, name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+  if (name === 'results') loadResults();
+}
+
+function goToResults() {
+  const btn = document.querySelectorAll('.tab')[1];
+  switchTab(btn, 'results');
+}
+
+/* ══ VALIDAR Y ENVIAR ══ */
+async function submitForm(e) {
+  e.preventDefault();
+  const errEl = document.getElementById('form-error');
+  errEl.style.display = 'none';
+
+  const radios = ['p1','p2','p3','p5','p6'];
+  for (const name of radios) {
+    if (!document.querySelector(`input[name="${name}"]:checked`)) {
+      errEl.textContent = 'Por favor, responde a todas las preguntas antes de enviar.';
+      errEl.style.display = 'block';
+      errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+  }
+
+  const p4val = document.getElementById('p4').value;
+  if (p4val === '' || isNaN(p4val) || Number(p4val) < 0) {
+    errEl.textContent = 'Indica los centímetros de tu planta más grande (escribe 0 si no tienes plantas).';
+    errEl.style.display = 'block';
+    errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  const data = {
+    timestamp:   new Date().toISOString(),
+    p1:          document.querySelector('input[name="p1"]:checked').value,
+    p2:          document.querySelector('input[name="p2"]:checked').value,
+    p3:          document.querySelector('input[name="p3"]:checked').value,
+    p4_cm:       Number(p4val),
+    p5:          document.querySelector('input[name="p5"]:checked').value,
+    p6:          document.querySelector('input[name="p6"]:checked').value,
+  };
+
+  if (DEMO_MODE) {
+    const prev = JSON.parse(localStorage.getItem('enc_musica_v3') || '[]');
+    prev.push(data);
+    localStorage.setItem('enc_musica_v3', JSON.stringify(prev));
+  } else {
+    try {
+      await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) });
+    } catch(err) { console.warn('Error al enviar:', err); }
+  }
+
+  document.getElementById('survey-form').style.display = 'none';
+  document.getElementById('success-msg').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ══ CHARTS ══ */
+let charts = {};
+
+function destroyCharts() {
+  Object.values(charts).forEach(c => { try { c.destroy(); } catch(e){} });
+  charts = {};
+}
+
+const C = {
+  rock:    '#457b9d',
+  regg:    '#e63946',
+  silencio:'#adb5bd',
+  otros:   '#e9a84c',
+  verde:   '#2d6a4f',
+  verdeC:  '#74c69d',
+  verdeX:  '#1a3d2b',
+  coral:   '#d97b78',
+  gris:    '#adb5bd',
+};
+
+function makeDoughnut(id, labels, data, colors) {
+  const ctx = document.getElementById(id);
+  if (!ctx) return;
+  charts[id] = new Chart(ctx.getContext('2d'), {
+    type: 'doughnut',
+    data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 0 }] },
+    options: {
+      cutout: '62%',
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => ` ${c.label}: ${c.raw} respuesta${c.raw!==1?'s':''}` } }
+      },
+      animation: { animateScale: true }
+    }
+  });
+}
+
+function makeBar(id, labels, data, colors) {
+  const ctx = document.getElementById(id);
+  if (!ctx) return;
+  charts[id] = new Chart(ctx.getContext('2d'), {
+    type: 'bar',
+    data: { labels, datasets: [{ data, backgroundColor: colors, borderRadius: 8, borderSkipped: false }] },
+    options: {
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` ${c.raw} respuesta${c.raw!==1?'s':''}` } } },
+      scales: {
+        x: { grid: { display: false } },
+        y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { stepSize: 1 } }
+      }
+    }
+  });
+}
+
+function legendHTML(labels, colors) {
+  return `<div class="legend">${labels.map((l,i) =>
+    `<span class="legend-item"><span class="legend-dot" style="background:${colors[i]}"></span>${l}</span>`
+  ).join('')}</div>`;
+}
+
+/* ══ CARGAR RESULTADOS ══ */
+async function loadResults() {
+  let R = [];
+  if (DEMO_MODE) {
+    R = JSON.parse(localStorage.getItem('enc_musica_v3') || '[]');
+  } else {
+    try {
+      const res = await fetch(SCRIPT_URL + '?action=get');
+      const json = await res.json();
+      R = json.data || [];
+    } catch(err) { console.warn('Error cargando:', err); }
+  }
+
+  destroyCharts();
+  const el = document.getElementById('results-content');
+
+  if (R.length === 0) {
+    el.innerHTML = `<div class="no-data"><div class="no-emoji">📭</div><p>Todavía no hay respuestas.<br>¡Comparte la encuesta con tus compañeros!</p></div>`;
+    return;
+  }
+
+  const N = R.length;
+
+  /* — P1 playlist — */
+  const p1L = ['🤘 Rock duro', '🎤 Reggaetón', '🔇 Sin música', '🎶 Otros'];
+  const p1V = ['Heavy metal / Rock duro','Reggaetón / música urbana','No suelo escuchar música en casa','Otros géneros'];
+  const p1D = p1V.map(v => R.filter(r => r.p1 === v).length);
+  const p1C = [C.rock, C.regg, C.silencio, C.otros];
+
+  /* — P2 tiempo — */
+  const p2L = ['Menos de 1h', 'Entre 1 y 3h', 'Más de 3h'];
+  const p2V = ['Menos de una hora','Entre 1 y 3 horas','Más de 3 horas'];
+  const p2D = p2V.map(v => R.filter(r => r.p2 === v).length);
+  const p2C = [C.verdeC, C.verde, C.verdeX];
+
+  /* — P3 estado — */
+  const p3L = ['🌴 Selva', '🌿 Normales', '🥀 Pochas'];
+  const p3V = ['Gigantes, parece una selva','Normales, ni fu ni fa','Pochas y super pequeñas'];
+  const p3D = p3V.map(v => R.filter(r => r.p3 === v).length);
+  const p3C = [C.verde, C.verdeC, C.coral];
+
+  /* — P4 cm — */
+  const cms = R.map(r => parseFloat(r.p4_cm)).filter(n => !isNaN(n) && n > 0);
+  const avgCm = cms.length ? (cms.reduce((a,b)=>a+b,0)/cms.length).toFixed(1) : '—';
+  const maxCm = cms.length ? Math.max(...cms) : '—';
+
+  /* — P5 opinión planta — */
+  const p5L = ['🌟 ¡Les flipa!', '💧 Les da igual', '😵 Se marchitan'];
+  const p5V = ['¡Me flipa! Desde que la pones crezco más','Me da igual, yo solo quiero agua','Apaga eso, me estoy marchitando'];
+  const p5D = p5V.map(v => R.filter(r => r.p5 === v).length);
+  const p5C = [C.verde, C.gris, C.coral];
+
+  /* — P6 cuidado — */
+  const p6Exp = R.filter(r => r.p6 === 'Modo experto').length;
+  const p6Olv = R.filter(r => r.p6 === 'Modo olvidadizo').length;
+
+  el.innerHTML = `
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-label">Total respuestas</div><div class="stat-value">${N}</div></div>
+      <div class="stat-card"><div class="stat-label">Altura media</div><div class="stat-value">${avgCm}<small> cm</small></div></div>
+      <div class="stat-card"><div class="stat-label">Planta más alta</div><div class="stat-value">${maxCm}<small> cm</small></div></div>
+      <div class="stat-card"><div class="stat-label">Modo experto</div><div class="stat-value">${N ? Math.round(p6Exp/N*100) : 0}<small>%</small></div></div>
+    </div>
+
+    <div class="chart-card">
+      <h3>🎵 ¿Qué música suena en casa?</h3>
+      <div class="chart-sub">Pregunta 1 — género musical predominante</div>
+      <div class="donut-wrap"><canvas id="c-p1" height="270"></canvas></div>
+      ${legendHTML(p1L, p1C)}
+    </div>
+
+    <div class="chart-card">
+      <h3>⏱️ ¿Cuánto tiempo aguantan las plantas?</h3>
+      <div class="chart-sub">Pregunta 2 — horas de exposición musical al día</div>
+      <div class="donut-wrap"><canvas id="c-p2" height="270"></canvas></div>
+      ${legendHTML(p2L, p2C)}
+    </div>
+
+    <div class="chart-card">
+      <h3>🌿 ¿Cómo están las plantas?</h3>
+      <div class="chart-sub">Pregunta 3 — estado visual declarado</div>
+      <div class="donut-wrap"><canvas id="c-p3" height="270"></canvas></div>
+      ${legendHTML(p3L, p3C)}
+    </div>
+
+    <div class="chart-card">
+      <h3>🗣️ Si las plantas pudieran hablar…</h3>
+      <div class="chart-sub">Pregunta 5 — opinión imaginaria de las plantas sobre la música</div>
+      <div class="donut-wrap"><canvas id="c-p5" height="270"></canvas></div>
+      ${legendHTML(p5L, p5C)}
+    </div>
+
+    <div class="chart-card">
+      <h3>🧑‍🌾 ¿Cómo las cuidan?</h3>
+      <div class="chart-sub">Pregunta 6 — nivel de cuidado declarado</div>
+      <canvas id="c-p6" height="180"></canvas>
+    </div>
+  `;
+
+  makeDoughnut('c-p1', p1L, p1D, p1C);
+  makeDoughnut('c-p2', p2L, p2D, p2C);
+  makeDoughnut('c-p3', p3L, p3D, p3C);
+  makeDoughnut('c-p5', p5L, p5D, p5C);
+  makeBar('c-p6',
+    ['🧑‍🌾 Modo experto', '🤷 Modo olvidadizo'],
+    [p6Exp, p6Olv],
+    [C.verde, C.otros]
+  );
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('tab-results').classList.contains('active')) loadResults();
+});
+</script>
+
+</body>
+</html>
